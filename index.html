@@ -1,0 +1,353 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+
+    <title>reveal.js - The HTML Presentation Framework</title>
+
+    <meta name="description" content="A framework for easily creating beautiful presentations using HTML">
+    <meta name="author" content="Hakim El Hattab">
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+    <link rel="stylesheet" href="css/reveal.css">
+    <link rel="stylesheet" href="css/theme/black.css" id="theme">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+
+    <!-- Code syntax highlighting -->
+    <link rel="stylesheet" href="lib/css/zenburn.css">
+
+    <!-- Printing and PDF exports -->
+    <script>
+      var link = document.createElement( 'link' );
+      link.rel = 'stylesheet';
+      link.type = 'text/css';
+      link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+      document.getElementsByTagName( 'head' )[0].appendChild( link );
+    </script>
+
+    <!--[if lt IE 9]>
+    <script src="lib/js/html5shiv.js"></script>
+    <![endif]-->
+
+    <style>
+    .cross {
+      position: relative;
+      display: inline-block;
+    }
+    .cross::before, .cross::after {
+      content: '';
+      width: 100%;
+      position: absolute;
+      right: 0;
+      top: 50%;
+    }
+    .cross::before {
+      border-bottom: 8px solid red;
+      -webkit-transform: skewY(-45deg);
+      transform: skewY(-45deg);
+    }
+    .cross::after {
+      border-bottom: 8px solid red;
+      -webkit-transform: skewY(45deg);
+      transform: skewY(45deg);
+    }
+    .above-version {
+      position: relative;
+      display: inline-block;
+    }
+    .above-version:after {
+      display: block;
+      content: '1';
+      width: 100%;
+      position: absolute;
+      right: 50px;
+      top: -155px;
+    }
+    </style>
+  </head>
+
+  <body>
+    <div class="reveal">
+      <!-- Any section element inside of this container is displayed as a slide -->
+      <div class="slides">
+        <section>
+          <h1>Node.js v4.<span class="cross">0</span><span class="above-version"></span>.0</h1>
+          <small>
+            <p>
+              Gábor `LaTotty` Tóth<br />
+              <a href="https://hu.linkedin.com/in/latotty"><i class="fa fa-linkedin"></i></a>
+              <a href="https://github.com/latotty/"><i class="fa fa-github"></i></a>
+            </p>
+            <p>
+              Co-founder &amp; Backend @ <a href="https://codingsans.com">Coding Sans</a>
+            </p>
+          </small>
+        </section>
+        <section>
+          <section>
+            <h1>History</h1>
+          </section>
+          <section>
+            <h2>Initial release</h1>
+            <h4>May 27, 2009</h3>
+            <h5>v0.0.1</h5>
+          </section>
+          <section>
+            <h2>io.js start</h2>
+            <h4>December 2014</h4>
+          </section>
+          <section>
+            <h2>io.js release</h2>
+            <h4>Jan 14, 2015</h4>
+            <h5>v1.0.0</h5>
+          </section>
+          <section>
+            <h2>Start of io.js merge</h2>
+            <h4>May 15, 2015</h4>
+          </section>
+          <section>
+            <h2>The big merge</h2>
+            <h4>Sept 8, 2015</h4>
+            <h5>v4.0.0</h5>
+          </section>
+          <section>
+            <h4>Sept 17, 2015</h4>
+            <h5>v4.1.0</h5>
+          </section>
+        </section>
+        <section>
+          <section>
+            <h1>Features</h1>
+          </section>
+          <section>
+            <h3>Promises</h3>
+            <pre><code>
+              function timeout(duration = 0) {
+                return new Promise((resolve, reject) => {
+                  setTimeout(resolve, duration);
+                })
+              }
+
+              var p = timeout(1000).then(() => {
+                return timeout(2000);
+              }).then(() => {
+                throw new Error("hmm");
+              }).catch(err => {
+                return Promise.all([timeout(100), timeout(200)]);
+              })
+            </code></pre>
+          </section>
+          <section>
+            <h3>Arrow</h3>
+            <pre><code>
+              var bob = {
+                _name: "Bob",
+                _friends: [],
+                printFriends() {
+                  this._friends.forEach(f =>
+                    console.log(this._name + " knows " + f));
+                }
+              };
+            </code></pre>
+          </section>
+          <section>
+            <h3>Let &amp; Const</h3>
+            <pre><code>
+              function f() {
+                let x;
+                {
+                  // okay, block scoped name
+                  const x = "sneaky";
+                  // error, const
+                  x = "foo";
+                }
+                // okay, declared with `let`
+                x = "bar";
+                // error, already declared in block
+                let x = "inner";
+              }
+            </code></pre>
+          </section>
+          <section>
+            <h3>Generator</h3>
+            <pre><code>
+              function* idMaker(){
+              var index = 0;
+                while(index < 3)
+                  yield index++;
+              }
+
+              var gen = idMaker();
+
+              console.log(gen.next().value); // 0
+              console.log(gen.next().value); // 1
+              console.log(gen.next().value); // 2
+              console.log(gen.next().value); // undefined
+            </code></pre>
+          </section>
+          <section>
+            <h3>Classes</h3>
+            <pre><code>
+              class Cat {
+                constructor(name) {
+                  this.name = name;
+                }
+                speak() {
+                  console.log(this.name + ' makes a noise.');
+                }
+              }
+              class Lion extends Cat {
+                speak() {
+                  super.speak();
+                  console.log(this.name + ' roars.');
+                }
+              }
+            </code></pre>
+          </section>
+          <section>
+            <h3>Template strings</h3>
+
+          </section>
+          <section>
+            <ul>
+              <li>Collections
+                <ul>
+                  <li>Set</li>
+                  <li>Map</li>
+                  <li>WeakSet</li>
+                  <li>WeakMap</li>
+                </ul>
+              </li>
+              <li>Typed arrays</li>
+              <li>Symbols</li>
+              <li>ARM</li>
+              <li>Semantic Versioning</li>
+            </ul>
+          </section>
+        </section>
+        <section>
+          <section>
+            <h1>Async flow management</h1>
+          </section>
+          <section>
+            <h3>Callbacks</h3>
+            <pre><code>
+              asyncFn1(function(err, obj1) {
+                if (err) {
+                  //error handling
+                  return;
+                }
+                asyncFn2(function(err, obj2) {
+                  if (err) {
+                    //error handling
+                    return;
+                  }
+                  console.log('success');
+                });
+              });
+            </code></pre>
+          </section>
+          <section>
+            <h3>Promises</h3>
+            <pre><code>
+              asyncFn1()
+              .then(function() {
+                return asyncFn2();
+              })
+              .then(function() {
+                console.log('success');
+              })
+              .catch(function(err) {
+                //error handling
+              });
+            </code></pre>
+          </section>
+          <section>
+            <h3>Coroutines</h3>
+            <pre><code>
+              co(function * asyncGeneratorFn() {
+                try {
+                  const obj1 = yield asyncFn1();
+
+                  const obj2 = yield asyncFn2();
+                } catch(err) {
+                  //error handling
+                }
+
+                console.log('success');
+              });
+            </code></pre>
+          </section>
+          <section>
+            <h3>Async-await</h3>
+            <pre><code>
+              async function asyncFn() {
+                try {
+                  const obj1 = await asyncFn1();
+
+                  const obj2 = await asyncFn2();
+                } catch(err) {
+                  //error handling
+                }
+
+                console.log('success');
+              };
+            </code></pre>
+          </section>
+          <section>
+            <ul>
+              <li><a href="https://github.com/tj/co">co</a></li>
+              <li><a href="https://github.com/petkaantonov/bluebird">bluebird</a></li>
+              <li><a href="http://taskjs.org/">task.js</a></li>
+              <li><a href="https://github.com/lukehoban/ecmascript-asyncawait">async-await</a></li>
+              <li><a href="https://babeljs.io/">Babel.js</a></li>
+            </ul>
+          </section>
+        </section>
+        <section>
+          <section>
+            <h1>Releases</h1>
+          </section>
+          <section>
+            <h3>First LTS</h3>
+            <h5>October, 2015</h5>
+          </section>
+        </section>
+      </div>
+    </div>
+
+    <script src="lib/js/head.min.js"></script>
+    <script src="js/reveal.js"></script>
+
+    <script>
+
+      // Full list of configuration options available at:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+
+        transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+        // Optional reveal.js plugins
+        dependencies: [
+          { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+          { src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: 'plugin/highlight/highlight.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
+          { src: 'plugin/zoom-js/zoom.js', async: true },
+          { src: 'plugin/notes/notes.js', async: true }
+        ]
+      });
+
+    </script>
+
+  </body>
+</html>
